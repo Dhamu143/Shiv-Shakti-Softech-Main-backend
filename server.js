@@ -6,8 +6,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-// Middleware
 const allowedOrigins = [
     'http://localhost:3000',
     'https://shivshaktisoftech-five.vercel.app'
@@ -29,22 +27,19 @@ app.use(
     })
 );
 
-// 🔴 YOU FORGOT THIS
 app.use(express.json());
-// Nodemailer Transporter\\\\
 
 
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === 'true',
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: false, 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
 });
 
-// Routes
 app.get('/', (req, res) => {
     res.send('Shiv Shakti Softech Backend API is running...');
 });
