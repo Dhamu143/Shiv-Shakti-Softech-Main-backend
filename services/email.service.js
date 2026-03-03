@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const smtpPort = Number(process.env.SMTP_PORT) || 587;
 
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST, // smtp.gmail.com
+    host: process.env.SMTP_HOST,
     port: smtpPort,
     secure: smtpPort === 465, // Automatically true for 465, false for 587
     auth: {
@@ -10,6 +10,7 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
+
 const sendContactEmail = async (clientData) => {
     const { fullName, email, phone, company, service, message } = clientData;
 
@@ -72,7 +73,15 @@ const sendContactEmail = async (clientData) => {
     };
 
     console.log("About to send email...");
-    return await transporter.sendMail(mailOptions);
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully! Message ID:", info.messageId);
+        return info;
+    } catch (error) {
+        console.error("Error inside sendContactEmail service:", error);
+        throw error;
+    }
 };
 
 module.exports = { sendContactEmail };

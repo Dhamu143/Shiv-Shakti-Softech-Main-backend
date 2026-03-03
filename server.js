@@ -7,26 +7,26 @@ const contactRoutes = require('./routes/contact.routes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'https://shivshaktisoftech-five.vercel.app'
-];
+// const allowedOrigins = [
+//     'http://localhost:3000',
+//     'https://shivshaktisoftech-five.vercel.app'
+// ];
 
-app.use(
-    cors({
-        origin: function (origin, callback) {
-            if (!origin) return callback(null, true);
+// app.use(
+//     cors({
+//         origin: function (origin, callback) {
+//             if (!origin) return callback(null, true);
 
-            if (allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        methods: ['GET', 'POST'],
-        credentials: true,
-    })
-);
+//             if (allowedOrigins.includes(origin)) {
+//                 callback(null, true);
+//             } else {
+//                 callback(new Error('Not allowed by CORS'));
+//             }
+//         },
+//         methods: ['GET', 'POST'],
+//         credentials: true,
+//     })
+// );
 app.use(express.json());
 
 app.get('/', (req, res) => {
