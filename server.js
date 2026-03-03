@@ -7,13 +7,30 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    methods: ['POST', 'GET'],
-    credentials: true
-}));
-app.use(express.json());
+// Middleware
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://shivshaktisoftech-five.vercel.app'
+];
 
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            if (!origin) return callback(null, true);
+
+            if (allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+        methods: ['GET', 'POST'],
+        credentials: true,
+    })
+);
+
+// 🔴 YOU FORGOT THIS
+app.use(express.json());
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
     service: 'gmail',
